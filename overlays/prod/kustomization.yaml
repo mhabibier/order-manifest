@@ -1,0 +1,60 @@
+# k8s/overlays/production/kustomization.yaml
+# Production overlay for order-service.
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+# Namespace harus sinkron dengan base/order-service
+namespace: order-service
+
+resources:
+  - ../../base
+
+# ── Image: Gunakan tag semver yang spesifik di production ───────────────────
+images:
+  - name: registry.yourdomain.com/auth-microservice # Nama image dasar di folder base
+    newName: registry.yourdomain.com/order-microservice # Ganti ke image order
+    newTag: "1.0.0" # Ganti dengan tag versi rilis Anda yang sebenarnya
+
+# ── Patches ───────────────────────────────────────────────────────────────────
+patches:
+  # Patch Deployment: Skala lebih besar dan limit resource lebih ketat
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: order-service
+        namespace: order-service
+      spec:
+        replicas: 3
+        template:
+          spec:
+            containers:
+              - name: order-service
+                resources:
+                  requests:
+                    cpu:    "200m"
+                    memory: "256Mi"
+                  limits:
+                    cpu:    "1000m"
+                    memory: "512Mi"
+
+  # Patch HPA: Rentang skala lebih lebar untuk trafik produksi
+  - patch: |-
+      apiVersion: autoscaling/v2
+      kind: HorizontalPodAutoscaler
+      metadata:
+        name: order-service-hpa
+        namespace: order-service
+      spec:
+        minReplicas: 3
+        maxReplicas: 20
+
+# ── Production-specific config overrides ─────────────────────────────────────
+configMapGenerator:
+  - name: order-service-config
+    namespace: order-service
+    behavior: merge
+    literals:
+      - NODE_ENV=production
+      - JWT_EXPIRES_IN=1h
