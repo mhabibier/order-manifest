@@ -12,7 +12,7 @@ resources:
 
 # ── Image: Gunakan tag semver yang spesifik di production ───────────────────
 images:
-  - name: registry.yourdomain.com/auth-microservice # Nama image dasar di folder base
+  - name: registry.yourdomain.com/order-microservice # Nama image dasar di folder base
     newName: registry.yourdomain.com/order-microservice # Ganti ke image order
     newTag: "1.0.0" # Ganti dengan tag versi rilis Anda yang sebenarnya
 

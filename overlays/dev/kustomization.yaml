@@ -12,7 +12,7 @@ resources:
 
 # ── Image: point to your private registry with a dev tag ─────────────────────
 images:
-  - name: registry.yourdomain.com/auth-microservice # Nama image asli di base
+  - name: registry.yourdomain.com/order-microservice # Nama image asli di base
     newName: registry.yourdomain.com/order-microservice # Ganti ke image order
     newTag: dev
 
