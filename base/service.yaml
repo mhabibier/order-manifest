@@ -4,7 +4,7 @@ metadata:
   name: order-service
   namespace: order-service
   labels:
-    app.kubernetes.io/name: order-microservice
+    app.kubernetes.io/name: order-service
     app.kubernetes.io/component: server
 spec:
   type: ClusterIP
@@ -15,3 +15,24 @@ spec:
       port: 80 # Port yang diakses oleh service lain di dalam cluster
       targetPort: http # Merujuk ke containerPort (misal: 3000) di Deployment
       protocol: TCP
+
+# ---
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: order-service-np
+#   namespace: order-service
+#   labels:
+#     app.kubernetes.io/name: order-service
+#     app.kubernetes.io/component: server-nodeport
+# spec:
+#   type: NodePort
+#   selector:
+#     app: order-service # Harus cocok dengan label 'app' di Deployment order
+#   ports:
+#     - name: http
+#       port: 80 # Port yang diakses oleh service lain di dalam cluster
+#       targetPort: http # Merujuk ke containerPort (misal: 3000) di Deployment
+#       protocol: TCP
+#       nodePort: 30083 # Port yang diakses dari luar cluster (30000
