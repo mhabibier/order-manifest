@@ -39,19 +39,10 @@ spec:
           type: RuntimeDefault
       terminationGracePeriodSeconds: 30
       imagePullSecrets:
-        - name: registry-credentials
-      affinity:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: order-service
-                topologyKey: kubernetes.io/hostname
+        - name: harbor-secret
       containers:
         - name: order-service
-          image: registry.yourdomain.com/order-microservice:1.0.0
+          image: harbor.sxdentrypoint.my.id/devsecops/order-svc:v1
           imagePullPolicy: Always
           ports:
             - name: http
