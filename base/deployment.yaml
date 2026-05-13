@@ -79,6 +79,21 @@ spec:
                 secretKeyRef:
                   name: order-service-secret
                   key: ADMIN_PASSWORD
+            - name: INTERNAL_SERVICE_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: INTERNAL_SERVICE_SECRET
+            - name: BOOK_SERVICE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: BOOK_SERVICE_URL
+            - name: BLOCKCHAIN_SERVICE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: order-service-secret
+                  key: BLOCKCHAIN_SERVICE_URL
           startupProbe:
             httpGet:
               path: /health
@@ -114,6 +129,10 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: prisma-client
+              mountPath: /app/node_modules/.prisma/client
       volumes:
         - name: tmp
+          emptyDir: {}
+        - name: prisma-client
           emptyDir: {}
