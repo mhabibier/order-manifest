@@ -42,7 +42,7 @@ spec:
         - name: harbor-secret
       containers:
         - name: order-service
-          image: harbor.sxdentrypoint.my.id/devsecops/order-svc:v1
+          image: harbor.sxdentrypoint.my.id/devsecops/order-svc:3c8509d8
           imagePullPolicy: Always
           ports:
             - name: http
